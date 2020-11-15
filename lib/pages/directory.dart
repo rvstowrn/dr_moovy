@@ -1,0 +1,12 @@
+export './control.dart';
+export './feedback.dart';
+export './info.dart';
+export './login.dart';
+export './machines.dart';
+export './member.dart';
+export './menu.dart';
+export './splash.dart';
+export './status.dart';
+export './suggestion.dart';
+export './team.dart';
+export './machinedetails.dart';

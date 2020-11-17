@@ -26,7 +26,7 @@ class _ControlPageState extends State<ControlPage> {
   Widget vSpace(k){ return SizedBox(height: k*1.0,); }
   Widget hSpace(k){ return SizedBox(width: k*1.0,); }
 
-  Widget appBar(){
+  Widget appBar(context){
     return Container(
       margin: const EdgeInsets.all(30),
       padding: const EdgeInsets.symmetric(vertical:5,horizontal:10),
@@ -44,7 +44,10 @@ class _ControlPageState extends State<ControlPage> {
               fontSize: 15
             ),
           ),
-          Icon(Icons.reply,color: Colors.white,),
+          GestureDetector(
+            onTap: () {Navigator.pop(context);},
+            child:Icon(Icons.reply,color: Colors.white,),
+          )
         ],
       ),
     );
@@ -126,7 +129,9 @@ class _ControlPageState extends State<ControlPage> {
         SizedBox(height:20),
         videoContainer(),
         vSpace(10),
+        Expanded(child: Container()),
         ...navigationBoard(),
+        vSpace(15)
       ],
     );
   }
@@ -137,10 +142,12 @@ class _ControlPageState extends State<ControlPage> {
         hSpace(20),
         videoContainer(),
         hSpace(10),
+        Expanded(child: Container()),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children:navigationBoard(),
-        )
+        ),
+        hSpace(10),
       ],
     );
   }
@@ -171,7 +178,7 @@ class _ControlPageState extends State<ControlPage> {
       body:SafeArea(
         child: Column(
           children: [
-            appBar(),
+            appBar(context),
             controllerCasing(),
           ],
         ),

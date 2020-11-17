@@ -89,7 +89,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
                             fontSize: 15
                           ),
                         ),
-                        Icon(Icons.reply,color: Colors.white,),
+                        GestureDetector(
+                          onTap: () {Navigator.pop(context);},
+                          child:Icon(Icons.reply,color: Colors.white,),
+                        )
                       ],
                     ),
                   ),

@@ -16,7 +16,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
       backgroundColor: Color.fromRGBO(55, 55, 55, 1),
       body:Center(
         child: Text('Thank You for your suggestion.\n😃',
-          textAlign: TextAlign.center ,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 15,
             height: 2,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../teamList.dart';
 
 class TeamPage extends StatefulWidget {
   @override
@@ -7,132 +8,119 @@ class TeamPage extends StatefulWidget {
 }
 
 class _TeamPageState extends State<TeamPage> {
+  var maxHeight;
+  var maxWidth;
+  var containerWidth;
+  var screenMode;
 
-  var ht,wt,hp,wp,hl,wl;
-
-  Widget button() {
-    return Material(
-      color: Colors.blueGrey[900],
-      child: IconButton(
-        icon: Icon(Icons.keyboard_arrow_left),
-        color: Colors.lightGreen,
-        splashColor: Colors.red,
-        padding: EdgeInsets.all(10),
-        onPressed: () {},
-      ),
-    );
+  void setStates(context){
+    setState(() {
+      maxHeight= MediaQuery.of(context).size.height;
+      maxWidth= MediaQuery.of(context).size.width;
+      containerWidth = MediaQuery.of(context).size.width/2-40;
+      screenMode = "portrait"; 
+    });
+    if(maxWidth>maxHeight){
+      setState(() { 
+        containerWidth = (maxWidth-100)/4; 
+        screenMode = "landscape"; 
+      });
+    }
   }
-
-  Widget team(h,w,name,img,htimg) {
+  
+  Widget appbar(context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
-      margin: EdgeInsets.all(10.0),
-      height: h,
-      width: w,
+      margin: const EdgeInsets.symmetric(vertical:10),
+      padding: const EdgeInsets.all(10),
+      width: maxWidth-20,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          boxShadow: [BoxShadow(color: Colors.black,blurRadius: 5.2,),],
-        color: Colors.teal[800],
+        color: Colors.teal[600],
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          CircleAvatar(
-            radius: htimg,
-            backgroundImage: img,
-          ),
-          Text(
-            name,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("TEAM",
             style: TextStyle(
-              color: Colors.white70,
-              fontWeight: FontWeight.bold,
-              fontSize: ht*0.05,
+              fontWeight:FontWeight.bold,
+              color:Colors.white,
+              fontSize: 15
             ),
           ),
+          GestureDetector(
+            onTap: () {Navigator.pop(context);},
+            child:Icon(Icons.reply,color: Colors.white,),
+          )
         ],
       ),
     );
   }
 
-  Widget row(h,w,name1,name2,img,htimg) {
-    return Material(
-      color: Colors.blueGrey[900],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          team(h, w, name1, img,htimg),
-          team(h, w, name2, img,htimg),
-        ],
+  Widget teamText(str,size,space){
+    return Text(str,
+      style: TextStyle(
+        fontSize:size.toDouble(),
+        color: Colors.white,
+        letterSpacing: space.toDouble(),
+        fontWeight: FontWeight.bold,
       ),
+      textAlign: TextAlign.center,
     );
   }
 
-  Widget appbar(ha,wa) {
+  Widget teamWidget(teamObj){
     return Container(
-      child: Card(
-        color: Colors.teal[800],
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0))
-        ),
-        child: Container(
-          height: ha,
-          width: wa,
-          child: Center(
-            child: Text('TEAM MEMBERS', style: TextStyle(
-                color: Colors.white70, fontWeight: FontWeight.bold,fontSize: ht*0.03)),
-          ),
-        ),
+      width: containerWidth,
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.teal[600],
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children:[
+          Image.asset("assets/${teamObj['imgsrc']}"),
+          teamText(teamObj["name"],14,0),          
+          teamText(teamObj["role"],14,0),          
+        ],
       ),
     );
   }
 
-  Widget portrait(ha,wa,h,w,htimg) {
-    return Material(
-      child: Container(
-        height: ht,
-        width: wt,
-        color: Colors.blueGrey[900],
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Padding(padding: EdgeInsets.all(10)),
-              button(),
-              appbar(ha, wa),
-              row(h, w, 'A','X', AssetImage(''),htimg),
-              row(h, w, 'B','Y', AssetImage(''),htimg),
-              row(h, w, 'C','Z', AssetImage(''),htimg),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget landscape() {
-    return Material(
-      child: portrait(ht*0.2,wt*0.9,hl,wl,ht*0.1),
-    );
-  }
+  List<Widget> createTeamLayout(context){
+    int elementsInRow = (screenMode == "portrait")? 2 : 4;
+    int listLength = teamList.length;
+    int noOfRows = (listLength/elementsInRow).ceil();
+    int index = 0;
+    List<Widget> teamLayout = new List(); 
+    teamLayout.add(appbar(context));
+    for(int i= 0 ; i < noOfRows ; i++){
+      List<Widget> rowChildren = new List(); 
+      for(int j=0;j<elementsInRow && index!=listLength;j++){
+        rowChildren.add(teamWidget(teamList[index]));
+        index++;
+      }
+      teamLayout.add(Row(children: rowChildren));
+    }
+    return teamLayout;
+  } 
 
   @override
   Widget build(BuildContext context) {
-    ht = MediaQuery.of(context).size.height;
-    wt = MediaQuery.of(context).size.width;
-    hp = ht*0.2;
-    wp = wt*0.4;
-    hl = ht*0.4;
-    wl = wt*0.4;
-    return MaterialApp(
-      home: OrientationBuilder(
-        builder: (context,orientation) {
-          if (orientation == Orientation.portrait){
-            return portrait(ht*0.1,wt*0.9,hp,wp,ht*0.05);
-          }else{
-            return landscape();
-          }
-        },
+    setStates(context);
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(55, 55, 55, 1),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(30,20,30,20),
+          child:Column(
+            children:createTeamLayout(context),
+          ),
+        ),
       ),
     );
   }
+
 }

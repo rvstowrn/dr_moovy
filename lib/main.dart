@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './pages/directory.dart';
-void main() {
-  runApp(AppBase());
-}
+void main() => runApp(AppBase());
 
 class AppBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dr Moovy',
-      initialRoute: '/control',
+      initialRoute: '/menu',
       routes: {
         '/splash': (context) => SplashPage(),                   // UI [], CODE [], LOGIC []
         '/login': (context) => LoginPage(),                     // UI [], CODE [], LOGIC []  
@@ -29,7 +27,6 @@ class AppBase extends StatelessWidget {
   }
 }
 
-// Work
-
-// Globals Like AppBar and Vspace
-//
+// WORK
+// Globals (appbar,vspace,hspace,setStates)
+// Test on different screen sizes 

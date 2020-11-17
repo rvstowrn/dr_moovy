@@ -28,7 +28,7 @@ class _MachinesPageState extends State<MachinesPage> {
     }
   }
   
-  Widget appbar() {
+  Widget appbar(context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical:10),
       padding: const EdgeInsets.all(10),
@@ -50,10 +50,16 @@ class _MachinesPageState extends State<MachinesPage> {
                 ),
               ),
               SizedBox(width:5),
-              Icon(Icons.info,color: Colors.white,),
+              GestureDetector(
+                onTap: () {Navigator.pushNamed(context,'/info');},
+                child:Icon(Icons.info,color: Colors.white,),
+              )
             ],
           ),
-          Icon(Icons.reply,color: Colors.white,),
+          GestureDetector(
+            onTap: () {Navigator.pop(context);},
+            child:Icon(Icons.reply,color: Colors.white,),
+          )
         ],
       ),
     );
@@ -107,13 +113,13 @@ class _MachinesPageState extends State<MachinesPage> {
     );
   }
 
-  List<Widget> createMachineLayout(){
+  List<Widget> createMachineLayout(context){
     int elementsInRow = (screenMode == "portrait")? 2 : 4;
     int listLength = machineList.length;
     int noOfRows = (listLength/elementsInRow).ceil();
     int index = 0;
     List<Widget> machineLayout = new List(); 
-    machineLayout.add(appbar());
+    machineLayout.add(appbar(context));
     for(int i= 0 ; i < noOfRows ; i++){
       List<Widget> rowChildren = new List(); 
       for(int j=0;j<elementsInRow && index!=listLength;j++){
@@ -132,9 +138,9 @@ class _MachinesPageState extends State<MachinesPage> {
       backgroundColor: Color.fromRGBO(55, 55, 55, 1),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(30,5,30,20),
+          padding: EdgeInsets.fromLTRB(30,20,30,20),
           child:Column(
-            children:createMachineLayout(),
+            children:createMachineLayout(context),
           ),
         ),
       ),

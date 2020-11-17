@@ -10,7 +10,7 @@ class AppBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dr Moovy',
-      initialRoute: '/login',
+      initialRoute: '/control',
       routes: {
         '/splash': (context) => SplashPage(),                   // UI [], CODE [], LOGIC []
         '/login': (context) => LoginPage(),                     // UI [], CODE [], LOGIC []  
@@ -28,3 +28,8 @@ class AppBase extends StatelessWidget {
     );
   }
 }
+
+// Work
+
+// Globals Like AppBar and Vspace
+//

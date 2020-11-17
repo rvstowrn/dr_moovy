@@ -75,7 +75,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   padding: const EdgeInsets.symmetric(horizontal:20,vertical:40),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal:10),
-                    color: Colors.teal[700],
+                    decoration: BoxDecoration(
+                      color: Colors.teal[700],
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

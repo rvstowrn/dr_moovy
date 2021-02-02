@@ -1,33 +1,186 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_thermometer/thermometer.dart';
-// import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_thermometer/thermometer.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 
-// // void main() {
-// //   runApp(Battery());
-// // }
+class StatusPage extends StatefulWidget {
+  @override
+  _StatusPageState createState() => _StatusPageState();
+}
 
+class _StatusPageState extends State<StatusPage> {
+  
+  Widget appBar(context){
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal:20,vertical:10),
+      padding: const EdgeInsets.symmetric(vertical:5,horizontal:10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: Colors.teal[600],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("STATUS",
+            style: TextStyle(
+              fontWeight:FontWeight.bold,
+              color:Colors.white,
+              fontSize: 15
+            ),
+          ),
+          GestureDetector(
+            onTap: () {Navigator.pop(context);},
+            child:Icon(Icons.reply,color: Colors.white,),
+          )
+        ],
+      ),
+    );
+  }  
 
-// class Battery extends StatefulWidget {
+  Widget sectionHeading(str,align){
+    return Text(str,
+      style: TextStyle(
+        color:Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1
+      ),
+      textAlign: align,
+    );
+  }
+
+  Widget thermometer(val,str){
+    return Expanded(
+      child:Column(
+        children: [
+          Container(
+            height:150,
+            child: Thermometer(
+              value: val,
+              minValue: 0,
+              maxValue: 100,
+              mercuryColor: Colors.orangeAccent,
+            ),
+          ),
+          SizedBox(height:3),
+          Text(str,
+            style: TextStyle(
+              color:Colors.white
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget batteryGauge(val){
+    return SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
+          pointers: <GaugePointer>[NeedlePointer(value: val)],
+          radiusFactor: 0.9,
+          startAngle: 180,
+          endAngle: 0,
+          minimum: 0, 
+          maximum: 100,
+          ranges: <GaugeRange>[
+            GaugeRange(startValue: 0, endValue: 25, color:Colors.red,startWidth: 20,endWidth: 20),
+            GaugeRange(startValue: 25,endValue: 50,color: Colors.yellow,startWidth: 20,endWidth: 20),
+            GaugeRange(startValue: 50,endValue: 75,color: Colors.orange,startWidth: 20,endWidth: 20),
+            GaugeRange(startValue: 75,endValue: 100,color: Colors.green,startWidth: 20,endWidth: 20)
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget batterySection(){
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: Color.fromRGBO(90,90,90,1),
+      ),
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          sectionHeading("BATTERY", TextAlign.center),
+          batteryGauge(65.0),
+        ],
+      ),
+    );
+  }
+  
+  Widget temperatureSection(){
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: Color.fromRGBO(90,90,90,1),
+      ),
+      child: Column(
+        children: [
+          Expanded(child: sectionHeading("TEMPERATURE", TextAlign.center),),
+          Row(
+            mainAxisAlignment:MainAxisAlignment.spaceAround,
+            children:[
+              thermometer(20.0,"BATTERY"),
+              thermometer(30.0,"PI"),
+              thermometer(40.0,"ARDUINO"),
+            ]
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> statusSections(context){
+    return [
+      Expanded(child: batterySection()),
+      Expanded(child: temperatureSection()),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(55,55,55,1),
+      body: SafeArea(
+        child: Column(
+          children: [
+            appBar(context),
+            Expanded(
+              child: OrientationBuilder(
+                builder: (context,orientation) {
+                  if (orientation == Orientation.portrait){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children:statusSections(context)
+                    );
+                  }else{
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children:statusSections(context)
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// class StatusPagePage extends StatefulWidget {
 //   @override
-//   _BatteryState createState() => _BatteryState();
+//   _StatusPagePageState createState() => _StatusPagePageState();
 // }
 
-// class _BatteryState extends State<Battery> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: BatteryPage(),
-//     );
-//   }
-// }
-
-// class BatteryPage extends StatefulWidget {
-//   @override
-//   _BatteryPageState createState() => _BatteryPageState();
-// }
-
-// class _BatteryPageState extends State<BatteryPage> {
+// class _StatusPagePageState extends State<StatusPagePage> {
 //   var ht,wt;
 
 //   Widget button() {

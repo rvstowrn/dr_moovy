@@ -12,7 +12,7 @@ class AppBase extends StatelessWidget {
       routes: {
         '/splash': (context) => SplashPage(),                   // UI [], CODE [], LOGIC []
         '/login': (context) => LoginPage(),                     // UI [], CODE [], LOGIC []  
-        // '/status': (context) => StatusPage(),                   // UI [], CODE [], LOGIC [] left
+        '/status': (context) => StatusPage(),                   // UI [], CODE [], LOGIC [] left
         '/menu': (context) => MenuPage(),                       // UI [], CODE [], LOGIC []
         '/suggestion': (context) => SuggestionPage(),           // UI [], CODE [], LOGIC []
         '/feedback': (context) => FeedbackPage(),               // UI [], CODE [], LOGIC []
@@ -30,3 +30,5 @@ class AppBase extends StatelessWidget {
 // WORK
 // Globals (appbar,vspace,hspace,setStates)
 // Test on different screen sizes 
+// Team Page Layout 
+// Shodows

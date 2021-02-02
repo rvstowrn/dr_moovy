@@ -9,9 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3
-  # slider_button: ^0.6.0
-  # flutter_thermometer: ^1.0.0
-  # syncfusion_flutter_gauges: ^18.3.48
+  flutter_thermometer: ^1.0.0
+  syncfusion_flutter_gauges: ^18.3.48
 
 
 dev_dependencies:
